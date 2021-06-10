@@ -1,0 +1,31 @@
+package egovframework.example.main.controller;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import egovframework.example.main.service.MainService;
+import egovframework.example.main.vo.MainVo;
+
+@Controller
+public class MainController {
+
+	@Autowired
+	private MainService mainService;
+	
+	@RequestMapping(value="/class/classList.do")
+	public String classListDo(HttpServletRequest request, @ModelAttribute("searchVo")MainVo vo, Model model)throws NullPointerException, IOException, SQLException, Exception{
+		model.addAttribute("list", mainService.selectClass(vo));
+		
+		return "class/classList";
+		
+	}
+
+}

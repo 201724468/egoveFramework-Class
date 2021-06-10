@@ -1,0 +1,82 @@
+package egovframework.example.main.controller;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import egovframework.example.main.service.MainService;
+import egovframework.example.main.vo.MainVo;
+
+@Controller
+public class MainController {
+
+	private final String PagePath = "class/";
+	
+	@Autowired
+	private MainService service;
+	
+	@RequestMapping(value="/class/classList.do")
+	public String classListDo(HttpServletRequest request, MainVo vo, Model model)throws NullPointerException, IOException, SQLException, Exception{
+
+		String pgMode = vo.getPgMode();
+
+		if("create".equals(pgMode)) {
+			return classRegister();
+			
+		}else if("edit".equals(pgMode)){
+			return viewForm(model, request);
+			
+		}else {
+			model.addAttribute("list", service.selectClass(vo));
+			return PagePath + "classList";
+		}
+	}
+	
+	//수업 상세페이지
+    @RequestMapping(value="/class/classDetail.do")
+    public String viewForm(Model model, HttpServletRequest request) throws NullPointerException, IOException, SQLException, Exception{
+        int classSeq = Integer.parseInt(request.getParameter("classSeq"));
+        
+        MainVo vo = service.selectDetail(classSeq);
+        model.addAttribute("vo", vo);
+        vo.setPgMode("edit");
+        
+        return PagePath + "classDetail";
+    }
+    
+    //수업작성페이지
+    @RequestMapping(value="/class/classRegister.do")
+    public String classRegister()throws NullPointerException, IOException, SQLException, Exception{
+        return PagePath + "classRegister";
+    }
+    
+    //수업쓰기
+    @RequestMapping(value="/insertClass.do")
+    public String write(@ModelAttribute("MainVo") MainVo vo) throws NullPointerException, IOException, SQLException, Exception {
+        service.insertClass(vo);
+        return "redirect:class/classList.do";
+    }
+    
+    //수업수정
+    @RequestMapping(value="/updateClass.do")
+    public String updateClass(@ModelAttribute("MainVo") MainVo vo) throws NullPointerException, IOException, SQLException, Exception {
+        service.updateClass(vo);
+        return "redirect:"+ PagePath + "/classList.do";
+    }
+    
+    //수업삭제
+    @RequestMapping(value="/deleteClass.do")
+    public String deleteTest(HttpServletRequest request) throws NullPointerException, IOException, SQLException, Exception {
+        int classSeq = Integer.parseInt(request.getParameter("classSeq"));
+        service.deleteClass(classSeq);
+        return "redirect:class/classList.do";
+    }
+
+}

@@ -1,0 +1,115 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>학교 생활</title>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<style type="text/css">
+a{
+ text-decoration: auto;
+}
+</style>
+</head>
+<body>
+    <br/>
+    <h1 class="text-center">수업 리스트</h1>
+    <br/>
+    <br/>
+    <div class="container">
+    	<form name="search_form" method="get" action="/class/classList.do" onsubmit="return search(this);">
+			<input type="hidden" name="pgMode" value="${searchVo.pgMode }" />
+			<input type="hidden" id="classSeq" name="classSeq" value="${vo.classSeq }"/>
+    	</form>
+        <table class="table table-hover table-striped text-center" style="border:1px solid;">
+            <colgroup>
+                <col width="5%" />
+                <col width="30%" />
+                <col width="20%" />
+                <col width="*" />
+                <col width="10%"/>
+                <col width="10%"/>
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>수업 이름</th>
+                    <th>수업 코드</th>
+                    <th>수업 설명</th>
+                    <th>정보 보기</th>
+                    <th>관리</th>
+                </tr>
+            </thead>
+ 
+            <tbody>
+            <c:forEach items="${list }" var="vo" varStatus="status">
+                <tr>
+               		<td>${status.index }</td>
+                    <td>${vo.className}</td>
+                    <td>${vo.classCode}</td>
+                    <td>${vo.classNote}</td>
+                    <td>
+                    	<a class="btn btn-outline-info" onClick="javascript:edit(${vo.classSeq});">수업 정보</a><br/>
+                    </td>
+                    <td>
+        				<a class="btn btn-outline-info" style="float:right" onClick="javascript:deleteClass(${vo.classSeq});">수업 삭제</a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <hr/>
+        <div>
+            <ul class="pagination justify-content-center">
+                <li><a href="#" style="margin-right:5px;" class="text-secondary">◀</a></li>
+                <li><a href="#" style="margin-right:5px;" class="text-secondary">1</a></li>
+                <li><a href="#" style="margin-right:5px;" class="text-secondary">2</a></li>
+                <li><a href="#" style="margin-right:5px;" class="text-secondary">3</a></li>
+                <li><a href="#" style="margin-right:5px;" class="text-secondary">4</a></li>
+                <li><a href="#" style="margin-right:5px;" class="text-secondary">5</a></li>
+                <li><a href="#" style="margin-right:5px;" class="text-secondary">▶</a></li>
+            </ul>
+        </div>
+        <a class="btn btn-outline-info" style="float:right" onClick="javascript:create();">수업 개설</a>
+    </div>
+    <br>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+</body>
+
+<script type="text/javascript">
+
+//등록
+function create(){
+	var frm = document.search_form;
+	frm.pgMode.value = 'create';
+	frm.submit();
+}
+
+//수정 및 정보
+function edit(seq){
+	var frm = document.search_form;
+	frm.classSeq.value = seq;
+	frm.pgMode.value = 'edit';
+	frm.submit();
+}
+
+//삭제
+function deleteClass(id){
+	var frm = document.search_form;
+	if(!confirm('수업을 삭제하시겠습니까?\n 삭제한 수업은 복구 할 수 없습니다.')) return;
+	frm.classSeq.value = id;
+	frm.pgMode.value = 'deleteClass';
+	frm.action="/deleteClass.do";
+	frm.method="post";
+	frm.submit();
+}
+</script>
+
+</html>

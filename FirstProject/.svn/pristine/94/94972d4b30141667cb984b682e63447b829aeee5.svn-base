@@ -1,0 +1,70 @@
+package egovframework.example.main.vo;
+
+public class MainVo {
+	private int classSeq;
+    private String className;
+    private String classCode;
+    private String classNote;
+    private String classProfessor;
+	/**
+	 * @return the classSeq
+	 */
+	public int getClassSeq() {
+		return classSeq;
+	}
+	/**
+	 * @param classSeq the classSeq to set
+	 */
+	public void setClassSeq(int classSeq) {
+		this.classSeq = classSeq;
+	}
+	/**
+	 * @return the className
+	 */
+	public String getClassName() {
+		return className;
+	}
+	/**
+	 * @param className the className to set
+	 */
+	public void setClassName(String className) {
+		this.className = className;
+	}
+	/**
+	 * @return the classCode
+	 */
+	public String getClassCode() {
+		return classCode;
+	}
+	/**
+	 * @param classCode the classCode to set
+	 */
+	public void setClassCode(String classCode) {
+		this.classCode = classCode;
+	}
+	/**
+	 * @return the classNote
+	 */
+	public String getClassNote() {
+		return classNote;
+	}
+	/**
+	 * @param classNote the classNote to set
+	 */
+	public void setClassNote(String classNote) {
+		this.classNote = classNote;
+	}
+	/**
+	 * @return the classProfessor
+	 */
+	public String getClassProfessor() {
+		return classProfessor;
+	}
+	/**
+	 * @param classProfessor the classProfessor to set
+	 */
+	public void setClassProfessor(String classProfessor) {
+		this.classProfessor = classProfessor;
+	}
+    
+}

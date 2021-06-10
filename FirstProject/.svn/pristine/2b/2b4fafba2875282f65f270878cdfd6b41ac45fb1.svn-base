@@ -1,0 +1,24 @@
+package egovframework.example.main.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import egovframework.example.main.service.MainService;
+import egovframework.example.main.vo.MainVo;
+
+@Controller
+public class MainController {
+
+	@Autowired
+	private MainService mainService;
+	
+	@RequestMapping(value="/class/classList.do")
+	public String classListDo(MainVo mainVo, Model model)throws Exception{
+		model.addAttribute("list", mainService.selectClass(mainVo));
+		
+		return "classList";
+	}
+
+}
